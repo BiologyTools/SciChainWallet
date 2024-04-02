@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <RuntimeIdentifiers>linux-x64;linux-arm64;osx-x64;osx-arm64;win-x64;win-arm64;</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <UseWindowsForms>false</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,25 +11,42 @@
     <Authors>Erik Repo</Authors>
     <Version>2.0.0</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Glade\MainForm.glade" />
-  </ItemGroup>
-
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Glade\MainForm.glade">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="scichain.icns">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Dotnet.Bundle" Version="0.9.13" />
     <PackageReference Include="GtkSharp" Version="3.24.24.95" />
     <PackageReference Include="NetCoreServer" Version="8.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Packaging.Targets" Version="0.1.220">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SciChainLib\SciChainLib.csproj" />
   </ItemGroup>
-
+<PropertyGroup>
+    <CFBundleName>SciChainWallet</CFBundleName>
+    <!-- Also defines .app file name -->
+    <CFBundleDisplayName>SciChainWallet</CFBundleDisplayName>
+    <CFBundleIdentifier>com.SciChainWallet</CFBundleIdentifier>
+    <CFBundleVersion>0.3.0</CFBundleVersion>
+    <CFBundlePackageType>APPL</CFBundlePackageType>
+    <CFBundleSignature>????</CFBundleSignature>
+    <CFBundleExecutable>SciChainWallet</CFBundleExecutable>
+    <CFBundleIconFile>scichain.icns</CFBundleIconFile>
+    <CFBundleShortVersionString>0.3.0</CFBundleShortVersionString>
+    <!-- Will be copied from output directory -->
+    <NSPrincipalClass>NSApplication</NSPrincipalClass>
+    <NSHighResolutionCapable>true</NSHighResolutionCapable>
+  </PropertyGroup>
 </Project>
