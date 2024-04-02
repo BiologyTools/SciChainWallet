@@ -36,6 +36,8 @@ namespace SciChain
         [Builder.Object]
         private Button loginBut;
         [Builder.Object]
+        private Button copyBut;
+        [Builder.Object]
         private Label statusLabel;
 #pragma warning restore 649
 
@@ -72,8 +74,13 @@ namespace SciChain
             getAddressBut.Clicked += getAddrBut_Click;
             sendBut.Clicked += sendBut_Click;
             loginBut.Clicked += loginBut_Click;
-            statusLabel.ButtonPressEvent += StatusLabel_ButtonPressEvent;
+            copyBut.Clicked += CopyBut_Clicked;
             this.DestroyEvent += MainForm_DestroyEvent;
+        }
+
+        private void CopyBut_Clicked(object? sender, EventArgs e)
+        {
+            TextCopy.ClipboardService.SetText(GUID);
         }
 
         private void StatusLabel_ButtonPressEvent(object o, ButtonPressEventArgs args)
@@ -118,7 +125,7 @@ namespace SciChain
             {
                 try
                 {
-                    form.statusLabel.Text = "Connections:" + Peers.Count.ToString() + " Height: " + Chain.Count + " Treasury:" + GetTreasury();
+                    form.statusLabel.Text = "Logged In:" + form.GUID + "Connections:" + Peers.Count.ToString() + " Height: " + Chain.Count + " Treasury:" + GetTreasury();
                     form.balanceLabel.Text = "Balance: " + GetBalance(form.GUID).ToString();
                     form.reputationLabel.Text = "Reputation: " + GetReputation(form.GUID).ToString();
                     Thread.Sleep(1000);
