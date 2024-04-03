@@ -45,8 +45,13 @@ namespace SciChain
 
         #region Constructors / Destructors
 
-        /// Create a new BioConsole object using the Glade file "BioGTK.Glade.BioConsole.glade"
-        /// @return A new instance of the BioConsole class.
+        
+        /// <summary>
+        /// The function creates a MainForm object using a Builder to load a Glade file.
+        /// </summary>
+        /// <returns>
+        /// An instance of the `MainForm` class is being returned.
+        /// </returns>
         public static MainForm Create()
         {
             Builder builder = new Builder(new FileStream(System.IO.Path.GetDirectoryName(Environment.ProcessPath) + "/" + "Glade/MainForm.glade", FileMode.Open));
@@ -78,22 +83,36 @@ namespace SciChain
             this.DestroyEvent += MainForm_DestroyEvent;
         }
 
+        /// <summary>
+        /// The function `CopyBut_Clicked` copies the value of the `GUID` variable to the clipboard when
+        /// a button is clicked.
+        /// </summary>
+        /// <param name="sender">The `sender` parameter in the `CopyBut_Clicked` method refers to the
+        /// object that raised the event. In this case, it would be the button that was clicked to
+        /// trigger the event.</param>
+        /// <param name="EventArgs">The `EventArgs` parameter in the `CopyBut_Clicked` event handler
+        /// method is a base class for classes containing event data. It is often used when the event
+        /// handler does not need to pass any additional information about the event.</param>
         private void CopyBut_Clicked(object? sender, EventArgs e)
         {
             TextCopy.ClipboardService.SetText(GUID);
         }
-
-        private void StatusLabel_ButtonPressEvent(object o, ButtonPressEventArgs args)
-        {
-            Clipboard clipboard = Clipboard.Get(Gdk.Selection.Clipboard);
-            // Set text to the clipboard
-            clipboard.Text = GUID;
-        }
-
+        /// <summary>
+        /// The MainForm_DestroyEvent function saves data, saves wallet data with a password, and quits
+        /// the application.
+        /// </summary>
+        /// <param name="o">The parameter "o" in the MainForm_DestroyEvent method is typically used to
+        /// refer to the object that triggered the event. In this case, it could be the main form or
+        /// another object related to the destruction event.</param>
+        /// <param name="DestroyEventArgs">The `DestroyEventArgs` parameter in the
+        /// `MainForm_DestroyEvent` method is an event argument that provides information about the
+        /// event that triggered the destruction of the main form. It may contain details such as the
+        /// reason for the destruction or any additional context related to the event.</param>
         private void MainForm_DestroyEvent(object o, DestroyEventArgs args)
         {
             Save();
             wallet.Save(passwordBox.Buffer.Text);
+            Application.Quit();
         }
 
         #endregion
@@ -102,6 +121,17 @@ namespace SciChain
         private string GUID;
         string token;
         public string peer = "92.205.238.105";
+       /// <summary>
+       /// The loginBut_Click function initializes a wallet, connects to a chat client, loads blockchain
+       /// data, starts a timer, and updates status and balance labels.
+       /// </summary>
+       /// <param name="sender">The `sender` parameter in the `loginBut_Click` method is an object that
+       /// represents the control that raised the event. In this case, it would most likely be the
+       /// button that was clicked to trigger the login process.</param>
+       /// <param name="EventArgs">EventArgs is a base class for classes containing event data. It
+       /// represents the arguments that are passed to event handler methods when an event is raised. In
+       /// the context of your code snippet, the EventArgs parameter in the loginBut_Click method is
+       /// used to handle event data related to the button click event.</param>
         private async void loginBut_Click(object? sender, EventArgs e)
         {
             _writer = new StringWriter();
@@ -119,6 +149,10 @@ namespace SciChain
             statusLabel.Text = "Logged In:" + GUID;
             balanceLabel.Text = "Balance: " + GetBalance(GUID).ToString();
         }
+        /// <summary>
+        /// The Timer function updates status, balance, and reputation labels on a form at regular
+        /// intervals.
+        /// </summary>
         private static void Timer()
         {
             do
@@ -137,12 +171,24 @@ namespace SciChain
             } while (true);
             
         }
+        /// <summary>
+        /// The StartTimer function creates a new thread to run the Timer method.
+        /// </summary>
         private void StartTimer()
         {
             Thread th = new Thread(Timer);
             th.Start();
         }
 
+        /// <summary>
+        /// The function `AddItem` adds a new item to a ComboBox and updates its model accordingly.
+        /// </summary>
+        /// <param name="ComboBox">The `ComboBox` parameter in the `AddItem` method represents the
+        /// ComboBox widget to which you want to add an item. This method is used to add a new item
+        /// (specified by the `st` parameter) to the ComboBox's list of items.</param>
+        /// <param name="st">The `st` parameter in the `AddItem` method represents the string value that
+        /// you want to add to the ComboBox as a new item. This method adds the string `st` to the
+        /// ComboBox's list of items.</param>
         private void AddItem(ComboBox box, string st)
         {
             ListStore ls = new ListStore(typeof(string));
@@ -170,6 +216,18 @@ namespace SciChain
             box.Model = ls;
         }
 
+        /// <summary>
+        /// The function creates and signs a transaction, verifies it, and adds it to a list of
+        /// transactions.
+        /// </summary>
+        /// <param name="sender">The `sender` parameter in the `sendBut_Click` method is of type
+        /// `object?`, which means it can accept any object or `null`. It typically represents the
+        /// object that raised the event, in this case, the button that was clicked to trigger the
+        /// event.</param>
+        /// <param name="EventArgs">The `EventArgs` parameter in the `sendBut_Click` method is an object
+        /// that contains event data specific to the `Click` event. It provides information about the
+        /// event that occurred, such as the sender of the event and any additional event-specific data.
+        /// In this case, the `EventArgs` parameter</param>
         private void sendBut_Click(object? sender, EventArgs e)
         {
             Block.Transaction tr = new Block.Transaction(Block.Transaction.Type.transaction, GUID, wallet.PublicKey, addressBox.Buffer.Text, (decimal)amountBox.Value);
@@ -179,12 +237,34 @@ namespace SciChain
             AddTransaction(tr);
         }
 
+        /// <summary>
+        /// The updateBut_Click function updates the balance and reputation labels with values retrieved
+        /// using the GetBalance and GetReputation functions.
+        /// </summary>
+        /// <param name="sender">The `sender` parameter in the `updateBut_Click` method refers to the
+        /// object that raised the event. In this case, it would typically be the button that was
+        /// clicked to trigger the event.</param>
+        /// <param name="EventArgs">The `EventArgs` parameter in the `updateBut_Click` method is an
+        /// object that contains information about the event that triggered the click event. It provides
+        /// data about the event, such as the source of the event and any additional event-specific
+        /// information. In this case, it is used to handle the click</param>
         private void updateBut_Click(object? sender, EventArgs e)
         {
             balanceLabel.Text = "Balance: " + GetBalance(GUID).ToString();
             reputationLabel.Text = "Reputation: " + GetReputation(GUID).ToString();
         }
 
+        /// <summary>
+        /// This C# function asynchronously searches for an ORCID using a specified name and updates the
+        /// address box with the result.
+        /// </summary>
+        /// <param name="sender">The `sender` parameter in the `getAddrBut_Click` method is of type
+        /// `object?`. It represents the object that raised the event, in this case, the button that was
+        /// clicked.</param>
+        /// <param name="EventArgs">EventArgs is a base class that provides data for event handlers in
+        /// C#. It contains no data but is used as a base class for classes that contain event data. It
+        /// is typically used as a parameter in event handler methods to provide information about the
+        /// event that occurred.</param>
         private async void getAddrBut_Click(object? sender, EventArgs e)
         {
             addressBox.Buffer.Text = await Orcid.SearchForORCID(sendToNameBox.Text);
