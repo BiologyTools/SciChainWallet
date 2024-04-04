@@ -80,7 +80,14 @@ namespace SciChain
             sendBut.Clicked += sendBut_Click;
             loginBut.Clicked += loginBut_Click;
             copyBut.Clicked += CopyBut_Clicked;
-            this.DestroyEvent += MainForm_DestroyEvent;
+            this.Destroyed += MainForm_Destroyed;
+        }
+
+        private void MainForm_Destroyed(object? sender, EventArgs e)
+        {
+            Save();
+            wallet.Save(passwordBox.Buffer.Text);
+            Application.Quit();
         }
 
         /// <summary>
@@ -97,24 +104,7 @@ namespace SciChain
         {
             TextCopy.ClipboardService.SetText(GUID);
         }
-        /// <summary>
-        /// The MainForm_DestroyEvent function saves data, saves wallet data with a password, and quits
-        /// the application.
-        /// </summary>
-        /// <param name="o">The parameter "o" in the MainForm_DestroyEvent method is typically used to
-        /// refer to the object that triggered the event. In this case, it could be the main form or
-        /// another object related to the destruction event.</param>
-        /// <param name="DestroyEventArgs">The `DestroyEventArgs` parameter in the
-        /// `MainForm_DestroyEvent` method is an event argument that provides information about the
-        /// event that triggered the destruction of the main form. It may contain details such as the
-        /// reason for the destruction or any additional context related to the event.</param>
-        private void MainForm_DestroyEvent(object o, DestroyEventArgs args)
-        {
-            Save();
-            wallet.Save(passwordBox.Buffer.Text);
-            Application.Quit();
-        }
-
+        
         #endregion
         private StringWriter _writer;
         private Blockchain.Wallet wallet;

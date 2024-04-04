@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <Authors>Erik Repo</Authors>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -39,12 +39,12 @@
     <!-- Also defines .app file name -->
     <CFBundleDisplayName>SciChainWallet</CFBundleDisplayName>
     <CFBundleIdentifier>com.SciChainWallet</CFBundleIdentifier>
-    <CFBundleVersion>0.3.0</CFBundleVersion>
+    <CFBundleVersion>2.1.0</CFBundleVersion>
     <CFBundlePackageType>APPL</CFBundlePackageType>
     <CFBundleSignature>????</CFBundleSignature>
     <CFBundleExecutable>SciChainWallet</CFBundleExecutable>
     <CFBundleIconFile>scichain.icns</CFBundleIconFile>
-    <CFBundleShortVersionString>0.3.0</CFBundleShortVersionString>
+    <CFBundleShortVersionString>2.1.0</CFBundleShortVersionString>
     <!-- Will be copied from output directory -->
     <NSPrincipalClass>NSApplication</NSPrincipalClass>
     <NSHighResolutionCapable>true</NSHighResolutionCapable>
