@@ -130,7 +130,7 @@ namespace SciChain
             wallet.Load(passwordBox.Buffer.Text);
             string st = RSA.RSAParametersToStringAll(wallet.PrivateKey);
             GUID = CalculateHash(st);
-            Initialize(wallet);
+            Initialize(wallet,GUID);
             ChatClient cl = new ChatClient(peer, 8333);
             cl.ConnectAsync();
             ConnectToPeer(peer, cl, 8333);
